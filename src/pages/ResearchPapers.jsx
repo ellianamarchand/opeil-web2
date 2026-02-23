@@ -103,22 +103,22 @@ function ResearchPapers() {
       year: '2007',
       papers: [
         {
-          title: 'Placeholder title',
+          title: 'Heat capacity in magnetic and electric fields near the ferroelectric transition in triglycine sulfate',
           authors: 'J.C. Lashley, et al.',
           link: lashleyAPL2007,
         },
         {
-          title: 'Placeholder title',
+          title: 'Electronic instabilities in shape-memory alloys: Thermodynamic and electronic structure studies of the martensitic transition',
           authors: 'J.C. Lashley, et al.',
           link: lashleyPRB2007,
         },
         {
-          title: 'Placeholder title',
+          title: 'Physical Review Letters PRL 98, 249702 (2007)',
           authors: 'J.C. Lashley, et al.',
           link: lashleyPRL2007,
         },
         {
-          title: 'Placeholder title',
+          title: 'Angle-resolved photoemission and first-principles electronic structure of single-crystalline &alpha;-U(001)',
           authors: 'C.P. Opeil, et al.',
           link: opeilPRB2007,
         },
@@ -128,12 +128,12 @@ function ResearchPapers() {
       year: '2008',
       papers: [
         {
-          title: 'Placeholder title',
+          title: 'Observation of a Continuous Phase Transition in a Shape-Memory Alloy',
           authors: 'J.C. Lashley, et al.',
           link: lashleyPRL2008,
         },
         {
-          title: 'Placeholder title',
+          title: 'Combined Experimental and Theoretical Investigation of the Premartensitic Transition in Ni2MnGa',
           authors: 'C.P. Opeil, et al.',
           link: opeilPRL2008,
         },
@@ -143,17 +143,17 @@ function ResearchPapers() {
       year: '2009',
       papers: [
         {
-          title: 'Placeholder title',
+          title: 'Angle-Dependent Magneto-Resistance near the Pre-Martensitic Phase of Ni2MnGa',
           authors: 'C.P. Opeil, et al.',
           link: opeilJofPCS2009,
         },
         {
-          title: 'Placeholder title',
+          title: 'Influence of magnetic fields on structural martensitic transitions',
           authors: 'G.M. Schmiedeshoff, et al.',
           link: schmiedeshoffPhilMag2009,
         },
         {
-          title: 'Placeholder title',
+          title: 'Band Structure of SnTe Studied by Photoemission Spectroscopy',
           authors: 'J. Yang, et al.',
           link: yangPhilMag2009,
         },
@@ -163,17 +163,17 @@ function ResearchPapers() {
       year: '2010',
       papers: [
         {
-          title: 'Placeholder title',
+          title: 'Band Structure of SnTe Studied by Photoemission Spectroscopy',
           authors: 'P.B. Littlewood, et al.',
           link: littlewoodPhysRevLett2010,
         },
         {
-          title: 'Placeholder title',
+          title: 'The thermal conductivity of meteorites: New measurements and analysis',
           authors: 'C.P. Opeil, et al.',
           link: opeilICARUS2010,
         },
         {
-          title: 'Placeholder title',
+          title: 'Tin telluride: A weakly co-elastic metal',
           authors: 'E.K.H. Salje, et al.',
           link: saljePRB2010,
         },
