@@ -1,3 +1,4 @@
+import fullPapersPdf from '../assets/papers_directory.pdf'
 import opeilPhysicaB2002 from '../assets/research_papers/papers_2002/Opeil_PhysicaB 2002.pdf'
 import grafPhysRevB2003 from '../assets/research_papers/papers_2003/Graf_PhysRevB 2003.pdf'
 import grafJLowTempPhys2004 from '../assets/research_papers/papers_2004/Graf_JLowTempPhys 2004.pdf'
@@ -184,6 +185,16 @@ function ResearchPapers() {
   return (
     <div className="page research-papers-page">
       <h1>Published Research Papers</h1>
+      <div style={{ marginBottom: '40px' }}>
+        <a
+          className="more-info-button"
+          href={fullPapersPdf}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Download Complete Research Papers Directory (PDF)
+        </a>
+      </div>
       <div className="research-papers-list">
         {years.map((yearGroup) => (
           <section key={yearGroup.year} className="research-year">
