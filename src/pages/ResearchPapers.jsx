@@ -1,4 +1,8 @@
+import { useState, useEffect } from 'react';
+import { client } from '../sanityClient';
 import fullPapersPdf from '../assets/papers_directory.pdf'
+
+// --- ALL 23 OF YOUR ORIGINAL IMPORTS RESTORED ---
 import opeilPhysicaB2002 from '../assets/research_papers/papers_2002/Opeil_PhysicaB 2002.pdf'
 import grafPhysRevB2003 from '../assets/research_papers/papers_2003/Graf_PhysRevB 2003.pdf'
 import grafJLowTempPhys2004 from '../assets/research_papers/papers_2004/Graf_JLowTempPhys 2004.pdf'
@@ -23,179 +27,84 @@ import opeilICARUS2010 from '../assets/research_papers/papers_2010/Opeil_ICARUS_
 import saljePRB2010 from '../assets/research_papers/papers_2010/Salje_PRB 82_2010.pdf'
 
 function ResearchPapers() {
+  const [dynamicPapers, setDynamicPapers] = useState([]);
+
+  useEffect(() => {
+    client.fetch(`*[_type == "paper"] | order(year desc) {
+      title, year, authors, "link": pdfFile.asset->url
+    }`).then((data) => setDynamicPapers(data));
+  }, []);
+
+  // --- FULL DATASET RESTORED ---
   const years = [
-    {
-      year: '2002',
-      papers: [
-        {
-          title:
-            'Evidence for the existence of a magnetic quantum critical point in U(Pt<sub>1-x</sub>Pd<sub>x</sub>)<sub>3</sub>',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilPhysicaB2002,
-        },
-      ],
-    },
-    {
-      year: '2003',
-      papers: [
-        {
-          title: 'Onset of antiferromagnetism in UPt<sub>3</sub> via Th substitution studied by &mu;on spin spectroscopy',
-          authors: 'J. Graf, et al.',
-          link: grafPhysRevB2003,
-        },
-      ],
-    },
-    {
-      year: '2004',
-      papers: [
-        {
-          title: 'Magnetic Anisotropy and de Haas–van Alphen Oscillations in a Bi Microwire Array Studied via Cantilever Magnetometry at Low Temperatures',
-          authors: 'J. Graf, et al.',
-          link: grafJLowTempPhys2004,
-        },
-        {
-          title: 'Crossover from anomalous to conventional antiferromagnetism in Pd-doped UPt<sub>3</sub> studied via cantilever magnetometry',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilJMagMagMater2004,
-        },
-      ],
-    },
-    {
-      year: '2005',
-      papers: [
-        {
-          title: 'Low-dimensional phonon specific heat of titanium dioxide nanotubes',
-          authors: 'C. Dames, et al.',
-          link: damesAppPhysLett2005,
-        },
-        {
-          title: 'Inhomogeneous magnetic order in Th-doped UPt<sub>3</sub> detected by &mu;SR',
-          authors: 'A. de Visser, et al.',
-          link: deVisserPhysicaB2005,
-        },
-      ],
-    },
-    {
-      year: '2006',
-      papers: [
-        {
-          title: 'Tricritical Phenomena at the &gamma; &rarr; &alpha; Transition in Ce<sub>0.9-x</sub>La<sub>x</sub>Th<sub>0.1</sub> Alloys',
-          authors: 'J.C. Lashley, et al.',
-          link: lashleyPRL2006a,
-        },
-        {
-          title: 'Pinning Frequencies of the Collective Modes in &alpha;-Uranium',
-          authors: 'B. Mihaila, et al.',
-          link: mihailaPRL2006,
-        },
-        {
-          title: 'Photoelectric Effect in Uranium',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilJPSJ2006,
-        },
-        {
-          title: 'Valence-band UPS, 6pcore-level XPS, and LEED of a uranium (001) single crystal',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilPRB2006,
-        },
-      ],
-    },
-    {
-      year: '2007',
-      papers: [
-        {
-          title: 'Heat capacity in magnetic and electric fields near the ferroelectric transition in triglycine sulfate',
-          authors: 'J.C. Lashley, et al.',
-          link: lashleyAPL2007,
-        },
-        {
-          title: 'Electronic instabilities in shape-memory alloys: Thermodynamic and electronic structure studies of the martensitic transition',
-          authors: 'J.C. Lashley, et al.',
-          link: lashleyPRB2007,
-        },
-        {
-          title: 'Physical Review Letters PRL 98, 249702 (2007)',
-          authors: 'J.C. Lashley, et al.',
-          link: lashleyPRL2007,
-        },
-        {
-          title: 'Angle-resolved photoemission and first-principles electronic structure of single-crystalline &alpha;-U(001)',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilPRB2007,
-        },
-      ],
-    },
-    {
-      year: '2008',
-      papers: [
-        {
-          title: 'Observation of a Continuous Phase Transition in a Shape-Memory Alloy',
-          authors: 'J.C. Lashley, et al.',
-          link: lashleyPRL2008,
-        },
-        {
-          title: 'Combined Experimental and Theoretical Investigation of the Premartensitic Transition in Ni2MnGa',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilPRL2008,
-        },
-      ],
-    },
-    {
-      year: '2009',
-      papers: [
-        {
-          title: 'Angle-Dependent Magneto-Resistance near the Pre-Martensitic Phase of Ni2MnGa',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilJofPCS2009,
-        },
-        {
-          title: 'Influence of magnetic fields on structural martensitic transitions',
-          authors: 'G.M. Schmiedeshoff, et al.',
-          link: schmiedeshoffPhilMag2009,
-        },
-        {
-          title: 'Band Structure of SnTe Studied by Photoemission Spectroscopy',
-          authors: 'J. Yang, et al.',
-          link: yangPhilMag2009,
-        },
-      ],
-    },
-    {
-      year: '2010',
-      papers: [
-        {
-          title: 'Band Structure of SnTe Studied by Photoemission Spectroscopy',
-          authors: 'P.B. Littlewood, et al.',
-          link: littlewoodPhysRevLett2010,
-        },
-        {
-          title: 'The thermal conductivity of meteorites: New measurements and analysis',
-          authors: 'C.P. Opeil, et al.',
-          link: opeilICARUS2010,
-        },
-        {
-          title: 'Tin telluride: A weakly co-elastic metal',
-          authors: 'E.K.H. Salje, et al.',
-          link: saljePRB2010,
-        },
-      ],
-    },
-  ]
+    { year: '2010', papers: [
+      { title: 'Band Structure of SnTe Studied by Photoemission Spectroscopy', authors: 'P.B. Littlewood, et al.', link: littlewoodPhysRevLett2010 },
+      { title: 'The thermal conductivity of meteorites: New measurements and analysis', authors: 'C.P. Opeil, et al.', link: opeilICARUS2010 },
+      { title: 'Tin telluride: A weakly co-elastic metal', authors: 'E.K.H. Salje, et al.', link: saljePRB2010 },
+    ]},
+    { year: '2009', papers: [
+      { title: 'Angle-Dependent Magneto-Resistance near the Pre-Martensitic Phase of Ni2MnGa', authors: 'C.P. Opeil, et al.', link: opeilJofPCS2009 },
+      { title: 'Influence of magnetic fields on structural martensitic transitions', authors: 'G.M. Schmiedeshoff, et al.', link: schmiedeshoffPhilMag2009 },
+      { title: 'Band Structure of SnTe Studied by Photoemission Spectroscopy', authors: 'J. Yang, et al.', link: yangPhilMag2009 },
+    ]},
+    { year: '2008', papers: [
+      { title: 'Observation of a Continuous Phase Transition in a Shape-Memory Alloy', authors: 'J.C. Lashley, et al.', link: lashleyPRL2008 },
+      { title: 'Combined Experimental and Theoretical Investigation of the Premartensitic Transition in Ni2MnGa', authors: 'C.P. Opeil, et al.', link: opeilPRL2008 },
+    ]},
+    { year: '2007', papers: [
+      { title: 'Heat capacity in magnetic and electric fields near the ferroelectric transition in triglycine sulfate', authors: 'J.C. Lashley, et al.', link: lashleyAPL2007 },
+      { title: 'Electronic instabilities in shape-memory alloys: Thermodynamic and electronic structure studies of the martensitic transition', authors: 'J.C. Lashley, et al.', link: lashleyPRB2007 },
+      { title: 'Physical Review Letters PRL 98, 249702 (2007)', authors: 'J.C. Lashley, et al.', link: lashleyPRL2007 },
+      { title: 'Angle-resolved photoemission and first-principles electronic structure of single-crystalline &alpha;-U(001)', authors: 'C.P. Opeil, et al.', link: opeilPRB2007 },
+    ]},
+    { year: '2006', papers: [
+      { title: 'Tricritical Phenomena at the &gamma; &rarr; &alpha; Transition in Ce<sub>0.9-x</sub>La<sub>x</sub>Th<sub>0.1</sub> Alloys', authors: 'J.C. Lashley, et al.', link: lashleyPRL2006a },
+      { title: 'Pinning Frequencies of the Collective Modes in &alpha;-Uranium', authors: 'B. Mihaila, et al.', link: mihailaPRL2006 },
+      { title: 'Photoelectric Effect in Uranium', authors: 'C.P. Opeil, et al.', link: opeilJPSJ2006 },
+      { title: 'Valence-band UPS, 6pcore-level XPS, and LEED of a uranium (001) single crystal', authors: 'C.P. Opeil, et al.', link: opeilPRB2006 },
+    ]},
+    { year: '2005', papers: [
+      { title: 'Low-dimensional phonon specific heat of titanium dioxide nanotubes', authors: 'C. Dames, et al.', link: damesAppPhysLett2005 },
+      { title: 'Inhomogeneous magnetic order in Th-doped UPt<sub>3</sub> detected by &mu;SR', authors: 'A. de Visser, et al.', link: deVisserPhysicaB2005 },
+    ]},
+    { year: '2004', papers: [
+      { title: 'Magnetic Anisotropy and de Haas–van Alphen Oscillations in a Bi Microwire Array Studied via Cantilever Magnetometry at Low Temperatures', authors: 'J. Graf, et al.', link: grafJLowTempPhys2004 },
+      { title: 'Crossover from anomalous to conventional antiferromagnetism in Pd-doped UPt<sub>3</sub> studied via cantilever magnetometry', authors: 'C.P. Opeil, et al.', link: opeilJMagMagMater2004 },
+    ]},
+    { year: '2003', papers: [
+      { title: 'Onset of antiferromagnetism in UPt<sub>3</sub> via Th substitution studied by &mu;on spin spectroscopy', authors: 'J. Graf, et al.', link: grafPhysRevB2003 },
+    ]},
+    { year: '2002', papers: [
+      { title: 'Evidence for the existence of a magnetic quantum critical point in U(Pt<sub>1-x</sub>Pd<sub>x</sub>)<sub>3</sub>', authors: 'C.P. Opeil, et al.', link: opeilPhysicaB2002 },
+    ]},
+  ];
 
   return (
     <div className="page research-papers-page">
       <h1>Published Research Papers</h1>
       <div style={{ marginBottom: '40px' }}>
-        <a
-          className="more-info-button"
-          href={fullPapersPdf}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a className="more-info-button" href={fullPapersPdf} target="_blank" rel="noopener noreferrer">
           Download Complete Research Papers Directory (PDF)
         </a>
       </div>
+
       <div className="research-papers-list">
+        {/* NEW ADDITIONS FROM SANITY DASHBOARD */}
+        {dynamicPapers.length > 0 && (
+          <section className="research-year dynamic-uploads">
+            <h3 style={{color: '#b22222'}}>Recent Submissions (Live)</h3>
+            <ul>
+              {dynamicPapers.map((paper, i) => (
+                <li key={i}>
+                  <a href={paper.link} target="_blank" rel="noreferrer"><span>{paper.title}</span></a>
+                  <div className="research-authors">{paper.authors} ({paper.year})</div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* YOUR FULL ARCHIVE RESTORED */}
         {years.map((yearGroup) => (
           <section key={yearGroup.year} className="research-year">
             <h3>{yearGroup.year}</h3>
@@ -203,11 +112,7 @@ function ResearchPapers() {
               {yearGroup.papers.map((paper) => (
                 <li key={paper.link}>
                   <a href={paper.link} target="_blank" rel="noreferrer">
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: paper.title,
-                      }}
-                    />
+                    <span dangerouslySetInnerHTML={{ __html: paper.title }} />
                   </a>
                   <div className="research-authors">{paper.authors}</div>
                 </li>
@@ -217,7 +122,7 @@ function ResearchPapers() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default ResearchPapers
+export default ResearchPapers;
