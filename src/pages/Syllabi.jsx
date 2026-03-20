@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { client } from '../sanityClient'
 import syllabusPH210Spring2008 from '../assets/syllabi/Syllabus PH210, Intro. Physics Pre-Med., Spring 2008.pdf'
 import syllabusPH210Spring2009 from '../assets/syllabi/Syllabus PH210, Intro. Physics Pre-Med., Spring 2009.pdf'
 import syllabusPH416Fall2012 from '../assets/syllabi/Syllabus PH416, Physics of Alternative Energy Fall 2012.pdf'
@@ -58,10 +60,29 @@ const syllabiList = [
 ]
 
 function Syllabi() {
+  const [dynamicSyllabi, setDynamicSyllabi] = useState([])
+
+  useEffect(() => {
+    client
+      .fetch(`*[_type == "syllabus"] | order(_createdAt desc) { _id, title, "link": pdfFile.asset->url }`)
+      .then((data) => setDynamicSyllabi(data || []))
+  }, [])
+
   return (
     <div className="page">
       <h1>Physics Course Syllabi</h1>
       <div className="more-info-grid">
+        {dynamicSyllabi.map((syllabus) => (
+          <a
+            key={syllabus._id}
+            className="more-info-button"
+            href={syllabus.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {syllabus.title}
+          </a>
+        ))}
         {syllabiList.map((syllabus) => (
           <a
             key={syllabus.title}

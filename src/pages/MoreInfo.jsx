@@ -1,13 +1,34 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { client } from '../sanityClient'
 import cvPdf from '../assets/CV_opeil.pdf'
 
 function MoreInfo() {
+  const [dynamicCurriculumVitae, setDynamicCurriculumVitae] = useState([])
+
+  useEffect(() => {
+    client
+      .fetch(`*[_type == "curriculumVitae"] | order(_createdAt desc) { _id, title, "link": pdfFile.asset->url }`)
+      .then((data) => setDynamicCurriculumVitae(data || []))
+  }, [])
+
   return (
     <div className="page more-info-page">
       <div className="more-info-title-box">
         <h1>More Information About the Opeil Laboratory</h1>
       </div>
       <div className="more-info-grid">
+        {dynamicCurriculumVitae.map((cv) => (
+          <a
+            key={cv._id}
+            className="more-info-button"
+            href={cv.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {cv.title}
+          </a>
+        ))}
         <a className="more-info-button" href={cvPdf} download>
           Curriculum Vitae
         </a>

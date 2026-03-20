@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { client } from '../sanityClient'
 import patentFerroelectric from '../assets/patents/Ferroelectric infrared detector and method, LPS - US7687775.pdf'
 import patentLashleyApl2007 from '../assets/patents/Lashley et al., APL 2007.pdf'
 import patent2008and2010 from '../assets/patents/Patents 2008 and 2010.pdf'
@@ -38,10 +40,29 @@ const patentsList = [
 ]
 
 function Patents() {
+  const [dynamicPatents, setDynamicPatents] = useState([])
+
+  useEffect(() => {
+    client
+      .fetch(`*[_type == "patent"] | order(_createdAt desc) { _id, title, "link": pdfFile.asset->url }`)
+      .then((data) => setDynamicPatents(data || []))
+  }, [])
+
   return (
     <div className="page">
       <h1>Patents</h1>
       <div className="more-info-grid">
+        {dynamicPatents.map((patent) => (
+          <a
+            key={patent._id}
+            className="more-info-button"
+            href={patent.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {patent.title}
+          </a>
+        ))}
         {patentsList.map((patent) => (
           <a
             key={patent.title}

@@ -1,4 +1,5 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import './App.css'
 // 1. Import the ProtectedRoute from your new folder
 import ProtectedRoute from './components/ProtectedRoute'
@@ -21,18 +22,63 @@ import Asteroid from './pages/Asteroid'
 import Contact from './pages/Contact'
 
 function App() {
+  const navigate = useNavigate()
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => localStorage.getItem('lab-auth') === 'true' || localStorage.getItem('isAuthenticated') === 'true'
+  )
+  const [isAdmin, setIsAdmin] = useState(
+    () => localStorage.getItem('lab-admin') === 'true'
+  )
+  const [logoutSignal, setLogoutSignal] = useState(0)
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin')
+    localStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('lab-admin')
+    localStorage.removeItem('lab-auth')
+    setIsAuthenticated(false)
+    setIsAdmin(false)
+    setLogoutSignal((prev) => prev + 1)
+    navigate('/')
+  }
+
+  const handleLoginSuccess = (adminAccess) => {
+    setIsAuthenticated(true)
+    setIsAdmin(adminAccess)
+  }
+
   return (
     // 2. Wrap EVERYTHING in the ProtectedRoute tag
-    <ProtectedRoute>
+    <ProtectedRoute onLoginSuccess={handleLoginSuccess} logoutSignal={logoutSignal}>
       <div className="app-container">
         {/* 1. Header Section */}
         <header className="app-header">
           <h1>Opeil Laboratory - Higgins Hall 130</h1>
           <nav className="navbar">
-            <Link to="/">Home</Link>
-            <Link to="/physics-dept">BC Physics</Link>
-            <Link to="/lab-research">Research</Link>
-            <Link to="/more-info">More Info</Link>
+            <div className="navbar-spacer" />
+            <div className="navbar-center-links">
+              <Link to="/">Home</Link>
+              <Link to="/physics-dept">BC Physics Dept</Link>
+              <Link to="/lab-research">Lab Research Focus</Link>
+              <Link to="/more-info">More Info</Link>
+            </div>
+            <div className="navbar-actions">
+              {isAdmin && (
+                <a
+                  href="https://opeil-lab.sanity.studio"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ backgroundColor: '#ff4d4d', color: '#fff' }}
+                >
+                  EDIT SITE
+                </a>
+              )}
+              {isAuthenticated && (
+                <button type="button" className="logout-button" onClick={handleLogout}>
+                  Logout
+                </button>
+              )}
+            </div>
           </nav>
         </header>
 
@@ -57,13 +103,6 @@ function App() {
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
-
-        {/* 3. Footer with Admin Link (Professor's Shortcut) */}
-        <footer style={{ textAlign: 'center', padding: '20px', opacity: 0.6, fontSize: '0.8rem' }}>
-          <a href="https://manage.sanity.io" target="_blank" rel="noreferrer" style={{ color: '#888', textDecoration: 'none' }}>
-            Lab Admin Access
-          </a>
-        </footer>
       </div>
     </ProtectedRoute>
   )

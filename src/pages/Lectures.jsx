@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { client } from '../sanityClient'
 import lectureAPS from '../assets/lectures/Conference - APS 2006 Opeil et al. ARPES on U.pdf'
 import lectureOccidental from '../assets/lectures/Invited - Occidental University, July 2011 Measuring Materials.pdf'
 import lectureUCentral from '../assets/lectures/Invited - U Cent. FL, January 2015 SSERVI CLASS 1.0 & 2.0 Project .pdf'
@@ -33,10 +35,29 @@ const lecturesList = [
 ]
 
 function Lectures() {
+  const [dynamicLectures, setDynamicLectures] = useState([])
+
+  useEffect(() => {
+    client
+      .fetch(`*[_type == "lecture"] | order(_createdAt desc) { _id, title, "link": pdfFile.asset->url }`)
+      .then((data) => setDynamicLectures(data || []))
+  }, [])
+
   return (
     <div className="page">
       <h1>Invited, Public & Conference Lectures</h1>
       <div className="more-info-grid">
+        {dynamicLectures.map((lecture) => (
+          <a
+            key={lecture._id}
+            className="more-info-button"
+            href={lecture.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {lecture.title}
+          </a>
+        ))}
         {lecturesList.map((lecture) => (
           <a
             key={lecture.title}

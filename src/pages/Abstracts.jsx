@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { client } from '../sanityClient'
 import aps2005ManleyUranium from '../assets/conference_abstracts/APS 2005 Manley, Uranium.pdf'
 import aps2006OpeilArpesU from '../assets/conference_abstracts/APS 2006 Opeil, ARPES on U.pdf'
 import aps2006SmithCerium from '../assets/conference_abstracts/APS 2006 Smith, Cerium.pdf'
@@ -48,10 +50,29 @@ const abstractsList = [
 ]
 
 function Abstracts() {
+  const [dynamicAbstracts, setDynamicAbstracts] = useState([])
+
+  useEffect(() => {
+    client
+      .fetch(`*[_type == "abstract"] | order(_createdAt desc) { _id, title, "link": pdfFile.asset->url }`)
+      .then((data) => setDynamicAbstracts(data || []))
+  }, [])
+
   return (
     <div className="page">
       <h1>Conference Abstracts</h1>
       <div className="more-info-grid">
+        {dynamicAbstracts.map((abstract) => (
+          <a
+            key={abstract._id}
+            className="more-info-button"
+            href={abstract.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {abstract.title}
+          </a>
+        ))}
         {abstractsList.map((abstract) => (
           <a
             key={abstract.title}

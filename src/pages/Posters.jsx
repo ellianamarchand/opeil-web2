@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { client } from '../sanityClient'
 import poster2004ApsGraf from '../assets/conference_posters/2004 APS Graf et al. poster.pdf'
 import poster2006Lt25Opeil from '../assets/conference_posters/2006 LT25 Opeil et al. poster.pdf'
 import poster2009ApsAlmeida from '../assets/conference_posters/2009 APS Almeida  et al. poster.pdf'
@@ -78,10 +80,29 @@ const postersList = [
 ]
 
 function Posters() {
+  const [dynamicPosters, setDynamicPosters] = useState([])
+
+  useEffect(() => {
+    client
+      .fetch(`*[_type == "poster"] | order(_createdAt desc) { _id, title, "link": pdfFile.asset->url }`)
+      .then((data) => setDynamicPosters(data || []))
+  }, [])
+
   return (
     <div className="page">
       <h1>Conference Posters</h1>
       <div className="more-info-grid">
+        {dynamicPosters.map((poster) => (
+          <a
+            key={poster._id}
+            className="more-info-button"
+            href={poster.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {poster.title}
+          </a>
+        ))}
         {postersList.map((poster) => (
           <a
             key={poster.title}
