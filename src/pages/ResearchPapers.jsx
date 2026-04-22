@@ -79,6 +79,38 @@ function ResearchPapers() {
     ]},
   ];
 
+  const staticPapers = years.flatMap((yearGroup) =>
+    yearGroup.papers.map((paper) => ({
+      ...paper,
+      year: yearGroup.year,
+      titleIsHtml: true,
+    }))
+  );
+
+  const allPapers = [
+    ...dynamicPapers.map((paper) => ({
+      ...paper,
+      year: paper.year ? String(paper.year) : 'Unknown Year',
+      titleIsHtml: false,
+    })),
+    ...staticPapers,
+  ];
+
+  const groupedPapersByYear = allPapers.reduce((groups, paper) => {
+    const yearKey = paper.year || 'Unknown Year';
+    if (!groups[yearKey]) {
+      groups[yearKey] = [];
+    }
+    groups[yearKey].push(paper);
+    return groups;
+  }, {});
+
+  const groupedPaperEntries = Object.entries(groupedPapersByYear).sort(([a], [b]) => {
+    if (a === 'Unknown Year') return 1;
+    if (b === 'Unknown Year') return -1;
+    return Number(b) - Number(a);
+  });
+
   return (
     <div className="page research-papers-page">
       <h1>Published Research Papers</h1>
@@ -89,30 +121,18 @@ function ResearchPapers() {
       </div>
 
       <div className="research-papers-list">
-        {/* NEW ADDITIONS FROM SANITY DASHBOARD */}
-        {dynamicPapers.length > 0 && (
-          <section className="research-year dynamic-uploads">
-            <h3 style={{color: '#b22222'}}>Recent Submissions (Live)</h3>
+        {groupedPaperEntries.map(([year, papers]) => (
+          <section key={year} className="research-year">
+            <h3 className="research-year-heading">{year}</h3>
             <ul>
-              {dynamicPapers.map((paper, i) => (
-                <li key={i}>
-                  <a href={paper.link} target="_blank" rel="noreferrer"><span>{paper.title}</span></a>
-                  <div className="research-authors">{paper.authors} ({paper.year})</div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {/* YOUR FULL ARCHIVE RESTORED */}
-        {years.map((yearGroup) => (
-          <section key={yearGroup.year} className="research-year">
-            <h3>{yearGroup.year}</h3>
-            <ul>
-              {yearGroup.papers.map((paper) => (
-                <li key={paper.link}>
+              {papers.map((paper, i) => (
+                <li key={`${year}-${paper.link || paper.title}-${i}`}>
                   <a href={paper.link} target="_blank" rel="noreferrer">
-                    <span dangerouslySetInnerHTML={{ __html: paper.title }} />
+                    {paper.titleIsHtml ? (
+                      <span dangerouslySetInnerHTML={{ __html: paper.title }} />
+                    ) : (
+                      <span>{paper.title}</span>
+                    )}
                   </a>
                   <div className="research-authors">{paper.authors}</div>
                 </li>

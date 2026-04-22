@@ -11,8 +11,9 @@ export default {
     },
     {
       name: 'year',
-      type: 'string',
+      type: 'number',
       title: 'Publication Year',
+      validation: Rule => Rule.required().integer().min(1990).max(2030),
     },
     {
       name: 'authors',
@@ -28,4 +29,17 @@ export default {
       }
     },
   ]
+  ,
+  preview: {
+    select: {
+      title: 'title',
+      year: 'year',
+    },
+    prepare({ title, year }) {
+      return {
+        title,
+        subtitle: year ? String(year) : 'No year set',
+      }
+    },
+  },
 }

@@ -97,6 +97,51 @@ body {
   color: #2d2d2d;
 }
 
+.physics-dept-page {
+  max-width: 700px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+.physics-dept-page p {
+  margin: 0;
+}
+
+.faculty-profile-card {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #8a100b;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: 1px solid #8a100b;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.faculty-profile-card:hover {
+  background: #74100b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(138, 16, 11, 0.25);
+}
+
+.faculty-profile-card:focus-visible {
+  outline: 2px solid #8a100b;
+  outline-offset: 3px;
+}
+
+.external-link-icon {
+  flex-shrink: 0;
+}
+
 .main-layout {
   display: flex;
   justify-content: center;
@@ -156,6 +201,21 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
+.research-year {
+  margin-bottom: 24px;
+}
+
+.research-year-heading {
+  margin: 0 0 12px;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(138, 16, 11, 0.35);
+  padding-bottom: 6px;
+}
+
+.dynamic-uploads {
+  margin-bottom: 30px;
+}
+
 @media (max-width: 768px) {
   .navbar {
     grid-template-columns: 1fr;
@@ -178,5 +238,10 @@ body {
   .gallery-grid,
   .more-info-grid {
     grid-template-columns: 1fr;
+  }
+
+  .faculty-profile-card {
+    width: 100%;
+    max-width: 360px;
   }
 }
