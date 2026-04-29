@@ -1,8 +1,5 @@
-import { useState } from 'react'
-import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
-// 1. Import the ProtectedRoute from your new folder
-import ProtectedRoute from './components/ProtectedRoute'
 
 import Home from './pages/Home'
 import PhysicsDept from './pages/PhysicsDept'
@@ -22,89 +19,43 @@ import Asteroid from './pages/Asteroid'
 import Contact from './pages/Contact'
 
 function App() {
-  const navigate = useNavigate()
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => localStorage.getItem('lab-auth') === 'true' || localStorage.getItem('isAuthenticated') === 'true'
-  )
-  const [isAdmin, setIsAdmin] = useState(
-    () => localStorage.getItem('lab-admin') === 'true'
-  )
-  const [logoutSignal, setLogoutSignal] = useState(0)
-
-  const handleLogout = () => {
-    localStorage.removeItem('isAdmin')
-    localStorage.removeItem('isAuthenticated')
-    localStorage.removeItem('lab-admin')
-    localStorage.removeItem('lab-auth')
-    setIsAuthenticated(false)
-    setIsAdmin(false)
-    setLogoutSignal((prev) => prev + 1)
-    navigate('/')
-  }
-
-  const handleLoginSuccess = (adminAccess) => {
-    setIsAuthenticated(true)
-    setIsAdmin(adminAccess)
-  }
-
   return (
-    // 2. Wrap EVERYTHING in the ProtectedRoute tag
-    <ProtectedRoute onLoginSuccess={handleLoginSuccess} logoutSignal={logoutSignal}>
-      <div className="app-container">
-        {/* 1. Header Section */}
-        <header className="app-header">
-          <h1>Opeil Laboratory - Higgins Hall 130</h1>
-          <nav className="navbar">
-            <div className="navbar-spacer" />
-            <div className="navbar-center-links">
-              <Link to="/">Home</Link>
-              <Link to="/physics-dept">BC Physics Dept</Link>
-              <Link to="/lab-research">Lab Research Focus</Link>
-              <Link to="/more-info">More Info</Link>
-            </div>
-            <div className="navbar-actions">
-              {isAdmin && (
-                <a
-                  href="https://opeil-lab.sanity.studio"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ backgroundColor: '#ff4d4d', color: '#fff' }}
-                >
-                  EDIT SITE
-                </a>
-              )}
-              {isAuthenticated && (
-                <button type="button" className="logout-button" onClick={handleLogout}>
-                  Logout
-                </button>
-              )}
-            </div>
-          </nav>
-        </header>
+    <div className="app-container">
+      <header className="app-header">
+        <h1>Opeil Laboratory - Higgins Hall 130</h1>
+        <nav className="navbar">
+          <div className="navbar-spacer" />
+          <div className="navbar-center-links">
+            <Link to="/">Home</Link>
+            <Link to="/physics-dept">BC Physics Dept</Link>
+            <Link to="/lab-research">Lab Research Focus</Link>
+            <Link to="/more-info">More Info</Link>
+          </div>
+          <div className="navbar-actions" />
+        </nav>
+      </header>
 
-        {/* 2. Main Content Area */}
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/physics-dept" element={<PhysicsDept />} />
-            <Route path="/lab-research" element={<LabResearch />} />
-            <Route path="/more-info" element={<MoreInfo />} />
-            <Route path="/syllabi" element={<Syllabi />} />
-            <Route path="/research-papers" element={<ResearchPapers />} />
-            <Route path="/interviews" element={<Interviews />} />
-            <Route path="/equipment" element={<Equipment />} />
-            <Route path="/lectures" element={<Lectures />} />
-            <Route path="/patents" element={<Patents />} />
-            <Route path="/maps" element={<Maps />} />
-            <Route path="/abstracts" element={<Abstracts />} />
-            <Route path="/photos" element={<Photos />} />
-            <Route path="/posters" element={<Posters />} />
-            <Route path="/asteroid" element={<Asteroid />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </main>
-      </div>
-    </ProtectedRoute>
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/physics-dept" element={<PhysicsDept />} />
+          <Route path="/lab-research" element={<LabResearch />} />
+          <Route path="/more-info" element={<MoreInfo />} />
+          <Route path="/syllabi" element={<Syllabi />} />
+          <Route path="/research-papers" element={<ResearchPapers />} />
+          <Route path="/interviews" element={<Interviews />} />
+          <Route path="/equipment" element={<Equipment />} />
+          <Route path="/lectures" element={<Lectures />} />
+          <Route path="/patents" element={<Patents />} />
+          <Route path="/maps" element={<Maps />} />
+          <Route path="/abstracts" element={<Abstracts />} />
+          <Route path="/photos" element={<Photos />} />
+          <Route path="/posters" element={<Posters />} />
+          <Route path="/asteroid" element={<Asteroid />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
